@@ -1,0 +1,102 @@
+{
+  "$schema": "https://raw.githubusercontent.com/stablyai/orca/main/docs/schemas/plugins/orca-plugin.v2.schema.json",
+  "manifestVersion": 2,
+  "execution": "trusted-worker",
+  "id": "melious-usage",
+  "name": "Melious Usage",
+  "version": "0.1.0",
+  "description": "Melious energy balance, plan usage and spend in Orca's status bar.",
+  "author": {
+    "name": "Jean-Luc Winkler"
+  },
+  "license": "MIT",
+  "icon": "icon.png",
+  "engines": {
+    "orca": ">=1.4.248"
+  },
+  "main": "src/main.ts",
+  "pluginApi": 1,
+  "contributes": {
+    "statusBarItems": [
+      {
+        "id": "melious",
+        "text": "Melious …",
+        "icon": "zap",
+        "tooltip": "Melious usage",
+        "command": "melious.refresh"
+      }
+    ],
+    "commands": [
+      {
+        "id": "melious.refresh",
+        "title": "Melious: Refresh usage now"
+      },
+      {
+        "id": "melious.forgetKey",
+        "title": "Melious: Forget stored API key"
+      }
+    ],
+    "settings": [
+      {
+        "key": "apiKey",
+        "title": "API key",
+        "type": "string",
+        "maxLength": 256,
+        "placeholder": "sk-mel-…",
+        "description": "Entry only: on the next refresh the key moves into Orca's encrypted secret store (macOS Keychain) and this field is cleared. It is sent only to https://api.melious.ai. Leave empty to use MELIOUS_API_KEY or the melious CLI login (~/.melious/credentials.json). Create a key at https://melious.ai/account/api/keys"
+      },
+      {
+        "key": "period",
+        "title": "Spend period",
+        "type": "string",
+        "default": "month",
+        "enum": [
+          "day",
+          "week",
+          "month"
+        ],
+        "enumLabels": [
+          "Today",
+          "Last 7 days",
+          "Last 30 days"
+        ]
+      },
+      {
+        "key": "display",
+        "title": "Status bar shows",
+        "type": "string",
+        "default": "both",
+        "enum": [
+          "energy",
+          "spend",
+          "both"
+        ],
+        "enumLabels": [
+          "Energy left (%)",
+          "Spend (€)",
+          "Energy and spend"
+        ]
+      },
+      {
+        "key": "refreshMinutes",
+        "title": "Refresh every (minutes)",
+        "type": "integer",
+        "default": 5,
+        "minimum": 1,
+        "maximum": 60
+      }
+    ]
+  },
+  "capabilities": [
+    {
+      "kind": "settings:own"
+    },
+    {
+      "kind": "storage:own"
+    },
+    {
+      "kind": "secrets:own"
+    }
+  ],
+  "repository": "https://github.com/jlwin/orca-melious.ai-usage"
+}
